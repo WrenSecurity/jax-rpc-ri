@@ -993,11 +993,16 @@
 
   </target>
 
-  <!-- Prepare files uploaded to maven repository.
-  Generates binary jars, source jars, javadoc jars
-  and its *.asc signatures for maven upload in ${build.home} directory.
+  <!-- Prepare files uploaded to Maven repository.
+  Generates binary JARs, source JARs, Javadoc jars
+  and GPG signatures for Maven upload in ${build.home} directory.
 
-  These files should be manually uploaded to maven than.-->
+  These files can then be manually uploaded to Maven.
+
+  Additional GPG options can be passed by providing a wrapper script that
+  invokes GPG with the desired options, then providing the path to the wrapper
+  script in the GPG_CCOMMAND environment variable.
+  -->
   <target name="maven-distribution" depends="image">
     <mkdir dir="${maven.dist.dir}" />
 
@@ -1097,6 +1102,50 @@
     <exec executable="${env.GPG_COMMAND}">
       <arg value="-ab" />
       <arg value="${maven.dist.dir}/jaxrpc-spi-${pkg.version}-javadoc.jar" />
+    </exec>
+  </target>
+
+  <!-- Upload binaries, source JARs, and Javadocs to remote Maven repository.
+  Repository ID must be provided via the MVN_REPO_ID environment variable.
+  Repository URL must be provided via the MVN_REPO_URL environment variable.
+    -->
+  <target name="maven-deploy" depends="maven-distribution">
+    <property environment="env"/>
+    <property name="env.MVN_REPO_ID" value=""/>
+    <property name="env.MVN_REPO_URL" value=""/>
+
+    <exec executable="mvn">
+      <arg value="--batch-mode" />
+      <arg value="deploy:deploy-file" />
+      <arg value="-DgeneratePom=false" />
+      <arg value="-DrepositoryId=${env.MVN_REPO_ID}" />
+      <arg value="-Durl=${env.MVN_REPO_URL}" />
+      <arg value="-DpomFile=${maven.dist.dir}/jaxrpc-api-${pkg.version}.pom" />
+      <arg value="-Dfile=${maven.dist.dir}/jaxrpc-api-${pkg.version}.jar" />
+    </exec>
+
+    <exec executable="mvn">
+      <arg value="deploy:deploy-file" />
+      <arg value="--batch-mode" />
+      <arg value="-DgeneratePom=false" />
+      <arg value="-DrepositoryId=${env.MVN_REPO_ID}" />
+      <arg value="-Durl=${env.MVN_REPO_URL}" />
+      <arg value="-DpomFile=${maven.dist.dir}/jaxrpc-impl-${pkg.version}.pom" />
+      <arg value="-Dfile=${maven.dist.dir}/jaxrpc-impl-${pkg.version}.jar" />
+      <arg value="-Dsources=${maven.dist.dir}/jaxrpc-impl-${pkg.version}-sources.jar" />
+      <arg value="-Djavadoc=${maven.dist.dir}/jaxrpc-impl-${pkg.version}-javadoc.jar" />
+    </exec>
+
+    <exec executable="mvn">
+      <arg value="deploy:deploy-file" />
+      <arg value="--batch-mode" />
+      <arg value="-DgeneratePom=false" />
+      <arg value="-DrepositoryId=${env.MVN_REPO_ID}" />
+      <arg value="-Durl=${env.MVN_REPO_URL}" />
+      <arg value="-DpomFile=${maven.dist.dir}/jaxrpc-spi-${pkg.version}.pom" />
+      <arg value="-Dfile=${maven.dist.dir}/jaxrpc-spi-${pkg.version}.jar" />
+      <arg value="-Dsources=${maven.dist.dir}/jaxrpc-spi-${pkg.version}-sources.jar" />
+      <arg value="-Djavadoc=${maven.dist.dir}/jaxrpc-spi-${pkg.version}-javadoc.jar" />
     </exec>
   </target>
   
