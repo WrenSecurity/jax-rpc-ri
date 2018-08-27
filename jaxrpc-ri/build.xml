@@ -4,6 +4,7 @@
     DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
 
     Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+    Portions Copyright 2018 Wren Security.
 
     The contents of this file are subject to the terms of either the GNU
     General Public License Version 2 only ("GPL") or the Common Development
@@ -1051,46 +1052,49 @@
     <copy file="${basedir}/maven/jaxrpc-impl.pom" tofile="${maven.dist.dir}/jaxrpc-impl-${pkg.version}.pom" />
 
     <!-- signing -->
-    <exec executable="gpg">
+    <property environment="env"/>
+    <property name="env.GPG_COMMAND" value="gpg"/>
+
+    <exec executable="${env.GPG_COMMAND}">
       <arg value="-ab" />
       <arg value="${maven.dist.dir}/jaxrpc-api-${pkg.version}.pom" />
     </exec>
-    <exec executable="gpg">
+    <exec executable="${env.GPG_COMMAND}">
       <arg value="-ab" />
       <arg value="${maven.dist.dir}/jaxrpc-impl-${pkg.version}.pom" />
     </exec>
-    <exec executable="gpg">
+    <exec executable="${env.GPG_COMMAND}">
       <arg value="-ab" />
       <arg value="${maven.dist.dir}/jaxrpc-spi-${pkg.version}.pom" />
     </exec>
 
-    <exec executable="gpg">
+    <exec executable="${env.GPG_COMMAND}">
       <arg value="-ab" />
       <arg value="${maven.dist.dir}/jaxrpc-api-${pkg.version}.jar" />
     </exec>
-    <exec executable="gpg">
+    <exec executable="${env.GPG_COMMAND}">
       <arg value="-ab" />
       <arg value="${maven.dist.dir}/jaxrpc-impl-${pkg.version}.jar" />
     </exec>
-    <exec executable="gpg">
+    <exec executable="${env.GPG_COMMAND}">
       <arg value="-ab" />
       <arg value="${maven.dist.dir}/jaxrpc-spi-${pkg.version}.jar" />
     </exec>
 
-    <exec executable="gpg">
+    <exec executable="${env.GPG_COMMAND}">
       <arg value="-ab" />
       <arg value="${maven.dist.dir}/jaxrpc-impl-${pkg.version}-sources.jar" />
     </exec>
-    <exec executable="gpg">
+    <exec executable="${env.GPG_COMMAND}">
       <arg value="-ab" />
       <arg value="${maven.dist.dir}/jaxrpc-spi-${pkg.version}-sources.jar" />
     </exec>
 
-    <exec executable="gpg">
+    <exec executable="${env.GPG_COMMAND}">
       <arg value="-ab" />
       <arg value="${maven.dist.dir}/jaxrpc-impl-${pkg.version}-javadoc.jar" />
     </exec>
-    <exec executable="gpg">
+    <exec executable="${env.GPG_COMMAND}">
       <arg value="-ab" />
       <arg value="${maven.dist.dir}/jaxrpc-spi-${pkg.version}-javadoc.jar" />
     </exec>
