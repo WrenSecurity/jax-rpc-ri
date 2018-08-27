@@ -421,7 +421,7 @@ final class InputEntity implements Locator {
                     end = start;
                 // bug fix for bug: 4780479
                 if (start < s) // must have started new buffer
-                    s = 0;
+                    s = 1; // JAX_RPC-48 / OPENAM-656
                 content.append(buf, s, end - s);
                 end = -1;
                 /*
