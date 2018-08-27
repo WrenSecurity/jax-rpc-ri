@@ -2,6 +2,8 @@
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Portions Copyright 2012 ForgeRock AS.
+ * Portions Copyright 2018 Wren Security.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -419,7 +421,7 @@ final class InputEntity implements Locator {
                     end = start;
                 // bug fix for bug: 4780479
                 if (start < s) // must have started new buffer
-                    s = 0;
+                    s = 1; // JAX_RPC-48 / OPENAM-656
                 content.append(buf, s, end - s);
                 end = -1;
                 /*
@@ -541,7 +543,7 @@ final class InputEntity implements Locator {
                         if (reader == null || isClosed)
                             continue;
                         if (last == first)
-                            throw new InternalError("fillbuf");
+                            continue; // JAX_RPC-22 / OPENAM-1226
                         last--;
                         if (last > first) {
                             sawContent = true;
