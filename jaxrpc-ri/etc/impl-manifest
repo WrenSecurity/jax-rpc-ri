@@ -6,5 +6,3 @@ Implementation-Version: 1.1.4_01
 Implementation-Vendor: Oracle and/or its affiliates
 Implementation-Vendor-Id: com.sun
 Extension-Name: com.sun.xml.rpc
-Class-Path: jaxrpc-spi.jar ../../private/share/lib/jaxrpc-spi.jar saaj-api.jar saaj-impl.jar namespace.jar relaxngDatatype.jar ../../private/share/lib/relaxngDatatype.jar FastInfoset.jar ../../../opt/SUNWjax/share/lib/FastInfoset.jar
-
