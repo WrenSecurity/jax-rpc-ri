@@ -1007,7 +1007,6 @@
     <mkdir dir="${maven.dist.dir}" />
 
     <!-- Copy jars -->
-    <copy file="${build.home}/lib/jaxrpc-api.jar" tofile="${maven.dist.dir}/jaxrpc-api-${pkg.version}.jar" />
     <copy file="${build.home}/lib/jaxrpc-spi.jar" tofile="${maven.dist.dir}/jaxrpc-spi-${pkg.version}.jar" />
     <copy file="${build.home}/lib/jaxrpc-impl.jar" tofile="${maven.dist.dir}/jaxrpc-impl-${pkg.version}.jar" />
 
@@ -1052,7 +1051,6 @@
 
     <jar basedir="${maven.dist.dir}/spi-javadoc" destfile="${maven.dist.dir}/jaxrpc-spi-${pkg.version}-javadoc.jar" />
 
-    <copy file="${basedir}/maven/jaxrpc-api.pom" tofile="${maven.dist.dir}/jaxrpc-api-${pkg.version}.pom" />
     <copy file="${basedir}/maven/jaxrpc-spi.pom" tofile="${maven.dist.dir}/jaxrpc-spi-${pkg.version}.pom" />
     <copy file="${basedir}/maven/jaxrpc-impl.pom" tofile="${maven.dist.dir}/jaxrpc-impl-${pkg.version}.pom" />
 
@@ -1062,10 +1060,6 @@
 
     <exec executable="${env.GPG_COMMAND}">
       <arg value="-ab" />
-      <arg value="${maven.dist.dir}/jaxrpc-api-${pkg.version}.pom" />
-    </exec>
-    <exec executable="${env.GPG_COMMAND}">
-      <arg value="-ab" />
       <arg value="${maven.dist.dir}/jaxrpc-impl-${pkg.version}.pom" />
     </exec>
     <exec executable="${env.GPG_COMMAND}">
@@ -1073,10 +1067,6 @@
       <arg value="${maven.dist.dir}/jaxrpc-spi-${pkg.version}.pom" />
     </exec>
 
-    <exec executable="${env.GPG_COMMAND}">
-      <arg value="-ab" />
-      <arg value="${maven.dist.dir}/jaxrpc-api-${pkg.version}.jar" />
-    </exec>
     <exec executable="${env.GPG_COMMAND}">
       <arg value="-ab" />
       <arg value="${maven.dist.dir}/jaxrpc-impl-${pkg.version}.jar" />
@@ -1113,16 +1103,6 @@
     <property environment="env"/>
     <property name="env.MVN_REPO_ID" value=""/>
     <property name="env.MVN_REPO_URL" value=""/>
-
-    <exec executable="mvn">
-      <arg value="--batch-mode" />
-      <arg value="deploy:deploy-file" />
-      <arg value="-DgeneratePom=false" />
-      <arg value="-DrepositoryId=${env.MVN_REPO_ID}" />
-      <arg value="-Durl=${env.MVN_REPO_URL}" />
-      <arg value="-DpomFile=${maven.dist.dir}/jaxrpc-api-${pkg.version}.pom" />
-      <arg value="-Dfile=${maven.dist.dir}/jaxrpc-api-${pkg.version}.jar" />
-    </exec>
 
     <exec executable="mvn">
       <arg value="deploy:deploy-file" />
